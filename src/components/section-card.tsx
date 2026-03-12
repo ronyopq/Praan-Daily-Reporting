@@ -14,15 +14,16 @@ export function SectionCard({
   className?: string;
 }) {
   return (
-    <section className={cn("surface p-5", className)}>
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+    <section className={cn("shell-card p-4 p-lg-4 p-xl-5", className)}>
+      <div className="d-flex flex-column gap-4 flex-lg-row align-items-lg-center justify-content-lg-between">
         <div>
-          <h2 className="text-lg font-semibold text-slate-950">{title}</h2>
-          {description ? <p className="mt-1 text-sm text-slate-500">{description}</p> : null}
+          <h2 className="mb-1 fs-5 fw-bold text-dark">{title}</h2>
+          {description ? <p className="mb-0 section-copy" style={{ maxWidth: "48rem" }}>{description}</p> : null}
         </div>
-        {actions ? <div className="flex flex-wrap gap-2">{actions}</div> : null}
+        {actions ? <div className="d-flex flex-wrap gap-2">{actions}</div> : null}
       </div>
-      <div className="mt-5">{children}</div>
+      <div className="soft-divider my-4" />
+      <div>{children}</div>
     </section>
   );
 }

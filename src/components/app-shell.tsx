@@ -2,13 +2,24 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LogOut, Menu, ShieldCheck, UserCircle2 } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  BellRing,
+  CalendarDays,
+  ClipboardList,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  ShieldCheck,
+  UserCircle2,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ADMIN_NAVIGATION, APP_NAME, WORKSPACE_NAVIGATION } from "@/lib/constants";
 import { api } from "@/lib/api/client";
+import { clearSessionSnapshot } from "@/lib/session-cache";
 import { cn } from "@/lib/utils";
 
 type AppShellProps = {
@@ -16,12 +27,15 @@ type AppShellProps = {
     profile?: {
       fullName?: string;
       designation?: string;
+      departmentName?: string | null;
     };
     role?: string;
   } | null;
   area: "workspace" | "admin";
   children: React.ReactNode;
 };
+
+const mobileIcons = [LayoutDashboard, ClipboardList, BellRing, CalendarDays, UserCircle2];
 
 function NavLinks({
   area,
@@ -33,7 +47,7 @@ function NavLinks({
   const items = area === "admin" ? ADMIN_NAVIGATION : WORKSPACE_NAVIGATION;
 
   return (
-    <nav className="flex flex-col gap-1">
+    <nav className="d-flex flex-column gap-2">
       {items.map((item) => {
         const isActive =
           pathname === item.href || (item.href !== "/workspace" && pathname.startsWith(item.href));
@@ -42,13 +56,12 @@ function NavLinks({
           <Link
             key={item.href}
             href={item.href}
-            className={cn(
-              "rounded-2xl px-4 py-3 text-sm font-medium transition",
-              isActive ? "bg-slate-950 text-white" : "text-slate-600 hover:bg-slate-100",
-            )}
+            className={cn("shell-nav-link", isActive && "shell-nav-link-active")}
           >
-            <span className="block">{item.labelEn}</span>
-            <span className="block text-xs opacity-75">{item.labelBn}</span>
+            <div className="flex-grow-1">
+              <span className="shell-nav-label-en">{item.labelEn}</span>
+              <span className="shell-nav-label-bn font-bn">{item.labelBn}</span>
+            </div>
           </Link>
         );
       })}
@@ -59,82 +72,149 @@ function NavLinks({
 export function AppShell({ user, area, children }: AppShellProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const items = area === "admin" ? ADMIN_NAVIGATION : WORKSPACE_NAVIGATION;
+  const mobileItems = items.slice(0, 5);
+  const canAccessAdmin = ["admin", "super_admin"].includes(user?.role ?? "");
 
   async function handleLogout() {
     await api.logout();
+    clearSessionSnapshot();
+    queryClient.setQueryData(["session"], { user: null });
     toast.success("Signed out");
     router.push("/login");
     router.refresh();
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(56,189,248,0.16),_transparent_30%),linear-gradient(180deg,_#f8fafc_0%,_#ffffff_40%,_#f8fafc_100%)]">
-      <div className="mx-auto grid min-h-screen max-w-[1600px] gap-6 px-4 py-4 lg:grid-cols-[280px_minmax(0,1fr)] lg:px-6">
-        <aside className="hidden rounded-[32px] border border-slate-200 bg-white/90 p-5 shadow-sm shadow-slate-200/70 backdrop-blur lg:flex lg:flex-col lg:gap-6">
-          <div className="space-y-1">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-sky-700">PRAAN</p>
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-950">{APP_NAME}</h1>
-            <p className="text-sm text-slate-500">Multi-user planning, activity, and reporting workspace</p>
-          </div>
-          <NavLinks area={area} pathname={pathname} />
-          <div className="mt-auto rounded-3xl border border-slate-200 bg-slate-50 p-4">
-            <div className="flex items-center gap-3">
-              <UserCircle2 className="size-10 text-slate-400" />
-              <div>
-                <p className="text-sm font-semibold text-slate-900">{user?.profile?.fullName ?? "Signed in user"}</p>
-                <p className="text-xs text-slate-500">
-                  {user?.profile?.designation ?? "Team member"} | {user?.role ?? area}
-                </p>
+    <div className="shell-layout">
+      <div className="container-fluid px-0">
+        <div className="row g-0">
+          <aside className="col-lg-4 col-xl-3 d-none d-lg-block px-3 px-xl-4 py-3 py-xl-4">
+            <div className="shell-sidebar shell-card-strong p-4 p-xl-5">
+              <div className="d-flex flex-column gap-4">
+                <div className="d-flex flex-column gap-3">
+                  <div className="brand-chip align-self-start">
+                    <span className="brand-dot" />
+                    <span className="small fw-semibold text-uppercase text-secondary">PRAAN workflow</span>
+                  </div>
+                  <div>
+                    <h1 className="mb-2 fw-bold text-dark" style={{ fontSize: "2rem", letterSpacing: "-0.05em" }}>{APP_NAME}</h1>
+                    <p className="mb-0 section-copy">
+                      Fast, mobile-first reporting for work plan execution, follow-up visibility, and monthly compliance.
+                    </p>
+                  </div>
+                </div>
+
+                <NavLinks area={area} pathname={pathname} />
+
+                <div className="shell-card p-4">
+                  <div className="d-flex align-items-start gap-3">
+                    <div className="rounded-circle d-flex align-items-center justify-content-center text-white" style={{ width: "3rem", height: "3rem", background: "linear-gradient(135deg, var(--app-primary-strong), var(--app-primary))" }}>
+                      <UserCircle2 className="size-5" />
+                    </div>
+                    <div className="flex-grow-1">
+                      <p className="mb-1 fw-bold text-dark">{user?.profile?.fullName ?? "Signed in user"}</p>
+                      <p className="mb-1 small" style={{ color: "var(--app-ink-soft)" }}>
+                        {user?.profile?.designation ?? "Team member"}
+                      </p>
+                      <p className="mb-0 small font-bn" style={{ color: "var(--app-ink-soft)" }}>
+                        {user?.profile?.departmentName ?? "PRAAN team"} • {user?.role ?? area}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-4 d-flex flex-wrap gap-2">
+                    {area === "workspace" && canAccessAdmin ? (
+                      <Link href="/admin" className={cn(buttonVariants({ variant: "outline" }), "flex-fill")}>
+                        <ShieldCheck className="size-4" />
+                        Admin
+                      </Link>
+                    ) : null}
+                    <Button variant="ghost" className="flex-fill" onClick={handleLogout}>
+                      <LogOut className="size-4" />
+                      Logout
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="mt-4 flex gap-2">
-              {area === "workspace" ? (
-                <Link
-                  href="/admin"
-                  className={cn(buttonVariants({ variant: "outline" }), "flex-1")}
-                >
-                  <ShieldCheck className="size-4" />
-                  Admin
-                </Link>
-              ) : null}
-              <Button variant="ghost" className="flex-1" onClick={handleLogout}>
-                <LogOut className="size-4" />
-                Logout
-              </Button>
-            </div>
-          </div>
-        </aside>
-        <div className="flex min-h-screen flex-col gap-4">
-          <header className="sticky top-0 z-20 flex items-center justify-between rounded-[28px] border border-slate-200 bg-white/90 px-4 py-3 shadow-sm shadow-slate-200/70 backdrop-blur lg:px-6">
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-slate-400">{area}</p>
-              <p className="text-sm font-medium text-slate-700">
-                {user?.profile?.fullName ?? "PRAAN team workspace"}
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <Sheet>
-                <SheetTrigger className={cn(buttonVariants({ variant: "outline", size: "icon" }), "lg:hidden")}>
-                  <Menu className="size-4" />
-                </SheetTrigger>
-                <SheetContent side="left" className="w-[320px]">
-                  <div className="mt-8 space-y-5">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.3em] text-sky-700">PRAAN</p>
-                      <h2 className="text-2xl font-semibold text-slate-950">{APP_NAME}</h2>
-                    </div>
-                    <NavLinks area={area} pathname={pathname} />
+          </aside>
+
+          <div className="col-12 col-lg-8 col-xl-9">
+            <header className="shell-topbar sticky-top px-3 px-lg-4 py-3">
+              <div className="d-flex align-items-center justify-content-between gap-3">
+                <div className="d-flex align-items-center gap-3">
+                  <Sheet>
+                    <SheetTrigger className={cn(buttonVariants({ variant: "outline", size: "icon" }), "d-lg-none")}>
+                      <Menu className="size-4" />
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-[92vw] max-w-[360px] border-0 bg-transparent p-3 shadow-none">
+                      <div className="shell-card-strong h-full p-4">
+                        <SheetHeader className="p-0">
+                          <div className="brand-chip align-self-start">
+                            <span className="brand-dot" />
+                            <span className="small fw-semibold text-uppercase text-secondary">PRAAN</span>
+                          </div>
+                          <SheetTitle className="mt-3 text-start fs-4 fw-bold text-dark">{APP_NAME}</SheetTitle>
+                        </SheetHeader>
+                        <p className="mt-2 mb-4 section-copy">
+                          Mobile-first command center for planning, activity capture, approvals, and reminders.
+                        </p>
+                        <NavLinks area={area} pathname={pathname} />
+                        <div className="shell-card mt-4 p-4">
+                          <p className="mb-1 fw-bold text-dark">{user?.profile?.fullName ?? "PRAAN user"}</p>
+                          <p className="mb-0 small" style={{ color: "var(--app-ink-soft)" }}>
+                            {user?.profile?.designation ?? "Team member"} • {user?.role ?? area}
+                          </p>
+                        </div>
+                      </div>
+                    </SheetContent>
+                  </Sheet>
+                  <div>
+                    <p className="mb-0 small fw-semibold text-uppercase" style={{ letterSpacing: "0.18em", color: "var(--app-primary)" }}>{area}</p>
+                    <p className="mb-0 fw-semibold text-dark">{user?.profile?.fullName ?? "PRAAN team workspace"}</p>
                   </div>
-                </SheetContent>
-              </Sheet>
-              <Link href="/workspace/profile" className={buttonVariants({ variant: "outline" })}>
-                Profile
-              </Link>
-            </div>
-          </header>
-          <main className="pb-8">{children}</main>
+                </div>
+
+                <div className="d-flex align-items-center gap-2">
+                  {canAccessAdmin && area === "workspace" ? (
+                    <Link href="/admin" className={cn(buttonVariants({ variant: "outline" }), "d-none d-sm-inline-flex")}>
+                      <ShieldCheck className="size-4" />
+                      Admin
+                    </Link>
+                  ) : null}
+                  <Link href="/workspace/profile" className={buttonVariants({ variant: "default" })}>
+                    Profile
+                  </Link>
+                </div>
+              </div>
+            </header>
+
+            <main className="px-3 px-lg-4 py-4">{children}</main>
+          </div>
         </div>
       </div>
+
+      <nav className="shell-mobile-nav d-lg-none">
+        <div className="shell-mobile-nav-inner">
+          {mobileItems.map((item, index) => {
+            const Icon = mobileIcons[index] ?? LayoutDashboard;
+            const isActive =
+              pathname === item.href || (item.href !== "/workspace" && pathname.startsWith(item.href));
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn("shell-mobile-nav-link", isActive && "shell-mobile-nav-link-active")}
+              >
+                <Icon className="size-4" />
+                <span>{item.labelEn}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </div>
   );
 }

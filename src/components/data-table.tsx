@@ -31,9 +31,9 @@ export function DataTable<TData>({
   });
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm shadow-slate-200/70">
+    <div className="table-shell overflow-hidden rounded-5 border bg-white" style={{ borderColor: "var(--app-line)", boxShadow: "var(--app-shadow-soft)" }}>
       <Table>
-        <TableHeader className="bg-slate-50">
+        <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
@@ -59,7 +59,7 @@ export function DataTable<TData>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="py-8 text-center text-sm text-slate-500">
+              <TableCell colSpan={columns.length} className="py-5 text-center" style={{ color: "var(--app-ink-soft)" }}>
                 No records found.
               </TableCell>
             </TableRow>

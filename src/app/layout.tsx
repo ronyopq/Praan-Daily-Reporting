@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope, Noto_Sans_Bengali } from "next/font/google";
 
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 
 import { Providers } from "@/components/providers";
@@ -29,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${manrope.variable} ${notoSansBengali.variable}`}>
+      <body className={`app-body ${manrope.variable} ${notoSansBengali.variable}`}>
         <Providers>{children}</Providers>
       </body>
     </html>

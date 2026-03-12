@@ -33,13 +33,24 @@ export function ShellGate({
     }
   }, [area, isPending, router, user]);
 
-  if (isPending) {
+  if (isPending && !user) {
     return (
-      <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-6 px-4 py-10">
-        <Skeleton className="h-20 rounded-[28px]" />
-        <div className="grid gap-6 lg:grid-cols-4">
-          <Skeleton className="h-[600px] rounded-[32px]" />
-          <Skeleton className="h-[600px] rounded-[32px] lg:col-span-3" />
+      <div className="container-fluid px-3 px-lg-4 py-4">
+        <div className="shell-card p-4 p-lg-5">
+          <div className="d-flex align-items-center gap-3">
+            <div className="brand-chip">
+              <span className="brand-dot" />
+              <span className="small fw-semibold text-uppercase text-secondary">Loading workspace</span>
+            </div>
+          </div>
+          <div className="row g-4 mt-1">
+            <div className="col-12 col-lg-4">
+              <Skeleton className="h-[380px] rounded-[32px]" />
+            </div>
+            <div className="col-12 col-lg-8">
+              <Skeleton className="h-[380px] rounded-[32px]" />
+            </div>
+          </div>
         </div>
       </div>
     );

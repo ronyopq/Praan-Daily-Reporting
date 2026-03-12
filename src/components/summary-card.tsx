@@ -9,10 +9,10 @@ type SummaryCardProps = {
 };
 
 const toneMap = {
-  default: "from-white to-slate-50 text-slate-950",
-  success: "from-emerald-50 to-white text-emerald-950",
-  warning: "from-amber-50 to-white text-amber-950",
-  danger: "from-rose-50 to-white text-rose-950",
+  default: "metric-card",
+  success: "metric-card metric-card-success",
+  warning: "metric-card metric-card-warning",
+  danger: "metric-card metric-card-danger",
 } as const;
 
 export function SummaryCard({
@@ -25,15 +25,15 @@ export function SummaryCard({
   return (
     <div
       className={cn(
-        "rounded-3xl border border-slate-200 bg-gradient-to-br p-5 shadow-sm shadow-slate-200/60",
+        "p-4 p-xl-4",
         toneMap[tone],
         className,
       )}
     >
-      <p className="text-sm font-medium text-slate-500">{label}</p>
-      <div className="mt-3 flex items-end justify-between gap-3">
-        <p className="text-3xl font-semibold tracking-tight">{value}</p>
-        {hint ? <p className="text-xs text-slate-500">{hint}</p> : null}
+      <p className="mb-0 text-uppercase fw-semibold" style={{ fontSize: "0.72rem", letterSpacing: "0.14em", color: "var(--app-ink-soft)" }}>{label}</p>
+      <div className="mt-3 d-flex align-items-end justify-content-between gap-3">
+        <p className="mb-0 fw-bold" style={{ fontSize: "2rem", lineHeight: 1, letterSpacing: "-0.05em", color: "var(--app-ink)" }}>{value}</p>
+        {hint ? <p className="mb-0 small" style={{ color: "var(--app-ink-soft)" }}>{hint}</p> : null}
       </div>
     </div>
   );
