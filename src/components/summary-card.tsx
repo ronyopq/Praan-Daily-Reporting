@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import { cn } from "@/lib/utils";
 
 type SummaryCardProps = {
@@ -5,6 +7,7 @@ type SummaryCardProps = {
   value: string | number;
   hint?: string;
   tone?: "default" | "success" | "warning" | "danger";
+  icon?: ReactNode;
   className?: string;
 };
 
@@ -20,6 +23,7 @@ export function SummaryCard({
   value,
   hint,
   tone = "default",
+  icon,
   className,
 }: SummaryCardProps) {
   return (
@@ -30,12 +34,22 @@ export function SummaryCard({
         className,
       )}
     >
-      <p
-        className="mb-0 fw-semibold"
-        style={{ fontSize: "0.82rem", letterSpacing: "0.02em", color: "var(--app-ink-soft)" }}
-      >
-        {label}
-      </p>
+      <div className="d-flex align-items-start justify-content-between gap-3">
+        <p
+          className="mb-0 fw-semibold"
+          style={{ fontSize: "0.82rem", letterSpacing: "0.02em", color: "var(--app-ink-soft)" }}
+        >
+          {label}
+        </p>
+        {icon ? (
+          <span
+            className="d-inline-flex align-items-center justify-content-center rounded-4"
+            style={{ width: "2.35rem", height: "2.35rem", background: "var(--app-panel-soft)", color: "var(--app-primary-strong)" }}
+          >
+            {icon}
+          </span>
+        ) : null}
+      </div>
       <div className="mt-3 d-flex align-items-end justify-content-between gap-3">
         <p
           className="mb-0 fw-bold"

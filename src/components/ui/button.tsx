@@ -10,9 +10,9 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-[color:rgba(220,159,45,0.62)] bg-[linear-gradient(180deg,#f9c762_0%,#f0b547_100%)] text-[color:#2d2311] shadow-sm hover:-translate-y-0.5 hover:brightness-[0.99]",
-        outline: "border-[color:var(--app-line)] bg-white text-[color:var(--app-ink)] shadow-sm hover:bg-[color:#fcfbf7]",
-        secondary: "border-transparent bg-[color:var(--app-primary-soft)] text-[color:var(--app-primary-strong)] hover:bg-[color:#d4efec]",
+        default: "border-[color:rgba(138,115,248,0.3)] bg-[linear-gradient(180deg,var(--app-primary)_0%,var(--app-primary-strong)_100%)] text-white shadow-sm hover:-translate-y-0.5 hover:brightness-[0.99]",
+        outline: "border-[color:var(--app-line)] bg-white text-[color:var(--app-ink)] shadow-sm hover:bg-[color:var(--app-panel-soft)]",
+        secondary: "border-transparent bg-[color:var(--app-primary-soft)] text-[color:var(--app-primary-strong)] hover:bg-[color:#e8e2ff]",
         ghost: "border-transparent bg-transparent text-[color:var(--app-ink-soft)] hover:bg-[color:var(--app-panel-soft)] hover:text-[color:var(--app-ink)]",
         destructive: "border-[color:rgba(220,98,85,0.48)] bg-[color:var(--app-danger)] text-white shadow-sm hover:bg-[#c95447] hover:-translate-y-0.5",
         link: "rounded-0 border-0 bg-transparent px-0 text-[color:var(--app-primary)] shadow-none hover:text-[color:var(--app-primary-strong)]",
