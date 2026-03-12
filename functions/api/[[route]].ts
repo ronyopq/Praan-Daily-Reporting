@@ -1,5 +1,6 @@
 import { and, count, desc, eq, gte, inArray, lte } from "drizzle-orm";
 import { Hono } from "hono";
+import { handle } from "hono/cloudflare-pages";
 import { HTTPException } from "hono/http-exception";
 
 import {
@@ -1060,4 +1061,4 @@ app.get("/admin/audit", async (c) => {
   });
 });
 
-export const onRequest = app.fetch;
+export const onRequest = handle(app);
