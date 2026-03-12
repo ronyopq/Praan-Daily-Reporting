@@ -22,7 +22,7 @@
 functions/
   _shared/
   admin/[[path]].ts
-  api/[[route]].ts
+  api/[[path]].ts
   workspace/[[path]].ts
 src/
   app/

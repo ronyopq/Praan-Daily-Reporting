@@ -155,7 +155,7 @@ Password for all seeded users: `PraanAdmin@2026`
 - [`drizzle/0000_narrow_deadpool.sql`](/D:/RONY/OneDrive%20-%20NRDS/CodeX/Praan%20_Daily_Activity/drizzle/0000_narrow_deadpool.sql)
 - [`seed/001_seed.sql`](/D:/RONY/OneDrive%20-%20NRDS/CodeX/Praan%20_Daily_Activity/seed/001_seed.sql)
 - [`src/db/schema.ts`](/D:/RONY/OneDrive%20-%20NRDS/CodeX/Praan%20_Daily_Activity/src/db/schema.ts)
-- [`functions/api/[[route]].ts`](/D:/RONY/OneDrive%20-%20NRDS/CodeX/Praan%20_Daily_Activity/functions/api/[[route]].ts)
+- [`functions/api/[[path]].ts`](/D:/RONY/OneDrive%20-%20NRDS/CodeX/Praan%20_Daily_Activity/functions/api/[[path]].ts)
 
 ## Current verification
 

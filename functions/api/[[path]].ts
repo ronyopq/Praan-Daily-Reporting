@@ -48,7 +48,7 @@ import { fail, ok, parseBody } from "../_shared/respond";
 const app = new Hono<{
   Bindings: AppBindings;
   Variables: AppVariables;
-}>();
+}>().basePath("/api");
 
 app.use("*", async (c, next) => {
   c.set("sessionUser", null);
