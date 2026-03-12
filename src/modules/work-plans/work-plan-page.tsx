@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { ColumnDef } from "@tanstack/react-table";
+import { CalendarDays, Plus, Save } from "lucide-react";
 
 import { CalendarBoard } from "@/components/calendar-board";
 import { DataTable } from "@/components/data-table";
@@ -77,9 +78,9 @@ export function WorkPlanPage() {
       });
       setCalendarDays((response.generatedDays as Array<Record<string, unknown>>) ?? []);
       setRows((response.suggestedItems as WorkPlanRow[]) ?? []);
-      toast.success("Month structure generated");
+      toast.success("Month ready");
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Unable to generate month");
+      toast.error(error instanceof Error ? error.message : "Unable to build the month");
     }
   }
 
@@ -112,7 +113,11 @@ export function WorkPlanPage() {
     {
       header: "Task",
       cell: ({ row }) => (
-        <Input value={row.original.title} onChange={(event) => updateRow(row.index, { title: event.target.value })} />
+        <Input
+          value={row.original.title}
+          placeholder="Write the task name"
+          onChange={(event) => updateRow(row.index, { title: event.target.value })}
+        />
       ),
     },
     {
@@ -121,6 +126,7 @@ export function WorkPlanPage() {
         <Textarea
           rows={2}
           value={row.original.expectedOutput ?? ""}
+          placeholder="What should be finished?"
           onChange={(event) => updateRow(row.index, { expectedOutput: event.target.value })}
         />
       ),
@@ -182,7 +188,7 @@ export function WorkPlanPage() {
         id: row.id ?? `plan-${index}`,
         title: row.title,
         date: row.planDate,
-        color: row.holidayType && row.holidayType !== "none" ? "#f59e0b" : "#0284c7",
+        color: row.holidayType && row.holidayType !== "none" ? "#f3bc58" : "#2f9a98",
       })),
     ...calendarDays
       .filter((day) => day.holidayType && day.holidayType !== "none")
@@ -190,73 +196,108 @@ export function WorkPlanPage() {
         id: `holiday-${index}`,
         title: String(day.holidayLabel ?? "Holiday"),
         date: String(day.planDate),
-        color: "#f97316",
+        color: "#dc9f2d",
       })),
   ];
 
+  const holidayDays = calendarDays.filter((day) => day.holidayType && day.holidayType !== "none");
+
   return (
-    <div className="space-y-6">
+    <div className="d-flex flex-column gap-4 gap-lg-5">
       <PageHeader
-        eyebrow="Monthly planning"
-        title="Plan the month before logging the day"
-        description="Generate a Bangladesh-aware month structure, edit planned tasks in rows, and keep calendar visibility aligned with upcoming reporting."
+        eyebrow="Work plan"
+        title="Plan the month in a simple way"
+        description="Choose the month, build the calendar, add tasks, then save. Fridays and Bangladesh holidays are added for you."
         actions={
           <>
-            <div className="w-40">
+            <div style={{ width: "11rem" }}>
               <Input type="month" value={month} onChange={(event) => setMonth(event.target.value)} />
             </div>
-            <Button variant="outline" onClick={generateMonth}>
-              Generate month
+            <Button variant="secondary" onClick={generateMonth}>
+              <CalendarDays className="size-4" />
+              Build month
             </Button>
-            <Button onClick={saveDraft}>Save draft</Button>
+            <Button onClick={saveDraft}>
+              <Save className="size-4" />
+              Save
+            </Button>
           </>
         }
       />
 
-      <SectionCard
-        title="Holiday structure"
-        description="Fridays and Bangladesh holidays are suggested automatically, but task entry stays open on any date."
-      >
-        {calendarDays.length ? (
-          <div className="flex flex-wrap gap-2">
-            {calendarDays
-              .filter((day) => day.holidayType && day.holidayType !== "none")
-              .map((day) => (
-                <div key={String(day.planDate)} className="rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-800">
-                  {String(day.planDate)} · {String(day.holidayLabel)}
+      <section className="shell-card-strong hero-slab p-4 p-lg-5">
+        <div className="row g-3">
+          {[
+            ["1", "Build month", "Create the month with Fridays and holiday labels."],
+            ["2", "Add tasks", "Write one or more tasks for each day."],
+            ["3", "Save plan", "Keep the draft ready for later review and print."],
+          ].map(([number, title, text]) => (
+            <div key={title} className="col-12 col-md-4">
+              <div className="action-tile h-100 p-4">
+                <div className="d-flex align-items-center gap-3">
+                  <span className="sidebar-help-step-number">{number}</span>
+                  <div>
+                    <p className="mb-1 fw-bold text-dark">{title}</p>
+                    <p className="mb-0 section-copy">{text}</p>
+                  </div>
                 </div>
-              ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <SectionCard
+        title="Holiday labels"
+        description="Holiday labels help planning. You can still add work on any holiday date."
+      >
+        {holidayDays.length ? (
+          <div className="d-flex flex-wrap gap-2">
+            {holidayDays.map((day) => (
+              <div key={String(day.planDate)} className="soft-badge">
+                <span className="soft-dot" style={{ background: "var(--app-accent)" }} />
+                {String(day.planDate)} - {String(day.holidayLabel)}
+              </div>
+            ))}
           </div>
         ) : (
-          <EmptyState title="No generated dates yet" description="Use Generate month to load Friday and holiday defaults." />
+          <EmptyState title="No holiday labels yet" description="Tap Build month to load Fridays and saved holidays." />
         )}
       </SectionCard>
 
       <Tabs defaultValue="table" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="table">Table view</TabsTrigger>
-          <TabsTrigger value="calendar">Calendar view</TabsTrigger>
+          <TabsTrigger value="table">Task table</TabsTrigger>
+          <TabsTrigger value="calendar">Calendar</TabsTrigger>
         </TabsList>
+
         <TabsContent value="table">
           <SectionCard
-            title="Task rows"
-            description="Use quick-add rows for multiple tasks per day, then save the plan as draft or submit it from admin review later."
+            title="Task list"
+            description="Add tasks row by row. Keep the wording short and clear for easy daily entry later."
             actions={
               <Button variant="outline" onClick={addRow}>
-                Quick add task
+                <Plus className="size-4" />
+                Add row
               </Button>
             }
           >
             <DataTable columns={columns} data={rows} />
             {!rows.length && !isFetching ? (
               <div className="mt-5">
-                <EmptyState title="No tasks added yet" description="Generate a month structure or add your first planned task." />
+                <EmptyState title="No tasks added yet" description="Build the month first, then add your first task row." />
               </div>
             ) : null}
           </SectionCard>
         </TabsContent>
+
         <TabsContent value="calendar">
-          <CalendarBoard events={calendarEvents} />
+          <SectionCard
+            title="Calendar view"
+            description="Use the calendar to see task coverage, holidays, and busy dates at a glance."
+          >
+            <CalendarBoard events={calendarEvents} />
+          </SectionCard>
         </TabsContent>
       </Tabs>
     </div>

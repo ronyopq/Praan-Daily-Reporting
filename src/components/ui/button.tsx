@@ -10,11 +10,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-transparent text-white shadow-sm hover:-translate-y-0.5",
-        outline: "border-slate-200 bg-white text-slate-700 shadow-sm hover:bg-slate-50 hover:text-slate-950",
-        secondary: "border-transparent bg-slate-100 text-slate-800 hover:bg-slate-200",
-        ghost: "border-transparent bg-transparent text-slate-700 hover:bg-slate-100 hover:text-slate-950",
-        destructive: "border-transparent bg-red-600 text-white shadow-sm hover:bg-red-700 hover:-translate-y-0.5",
+        default: "border-[color:rgba(220,159,45,0.62)] bg-[linear-gradient(180deg,#f9c762_0%,#f0b547_100%)] text-[color:#2d2311] shadow-sm hover:-translate-y-0.5 hover:brightness-[0.99]",
+        outline: "border-[color:var(--app-line)] bg-white text-[color:var(--app-ink)] shadow-sm hover:bg-[color:#fcfbf7]",
+        secondary: "border-transparent bg-[color:var(--app-primary-soft)] text-[color:var(--app-primary-strong)] hover:bg-[color:#d4efec]",
+        ghost: "border-transparent bg-transparent text-[color:var(--app-ink-soft)] hover:bg-[color:var(--app-panel-soft)] hover:text-[color:var(--app-ink)]",
+        destructive: "border-[color:rgba(220,98,85,0.48)] bg-[color:var(--app-danger)] text-white shadow-sm hover:bg-[#c95447] hover:-translate-y-0.5",
         link: "rounded-0 border-0 bg-transparent px-0 text-[color:var(--app-primary)] shadow-none hover:text-[color:var(--app-primary-strong)]",
       },
       size: {
@@ -44,10 +44,7 @@ function Button({
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={cn(
-        buttonVariants({ variant, size, className }),
-        variant === "default" && "bg-[linear-gradient(135deg,var(--app-primary-strong),var(--app-primary))]",
-      )}
+      className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />
   )

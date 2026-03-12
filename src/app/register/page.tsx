@@ -57,31 +57,34 @@ export default function RegisterPage() {
       <div className="container-xl">
         <div className="row g-4">
           <div className="col-12 col-xl-4">
-            <div className="shell-card-strong h-100 p-4 p-lg-5">
+            <div className="shell-card-strong hero-slab h-100 p-4 p-lg-5">
               <div className="brand-chip mb-4">
                 <span className="brand-dot" />
-                <span className="small fw-semibold text-uppercase text-secondary">Registration</span>
+                <span className="small fw-semibold text-uppercase" style={{ color: "var(--app-ink-soft)" }}>
+                  New account
+                </span>
               </div>
               <h1 className="mb-3 fw-bold text-dark" style={{ fontSize: "clamp(2.1rem, 5vw, 3.4rem)", letterSpacing: "-0.05em" }}>
-                Request PRAAN access.
+                Request access
               </h1>
               <p className="section-copy mb-4">
-                Accounts stay pending until admin approval. The profile details you enter here flow into plans, activities, and reports.
+                Fill in your basic information. An admin will review the request before you can sign in.
               </p>
               <div className="d-flex flex-column gap-3">
                 {[
-                  { icon: UserPlus2, text: "Create your reporting identity" },
-                  { icon: ClipboardList, text: "Use the same profile in monthly plans" },
-                  { icon: Globe2, text: "Use the English interface" },
-                ].map((item) => {
+                  { icon: UserPlus2, text: "Create your account request" },
+                  { icon: ClipboardList, text: "Use the same profile in plans and reports" },
+                  { icon: Globe2, text: "English-only simple interface" },
+                ].map((item, index) => {
                   const Icon = item.icon;
 
                   return (
-                    <div key={item.text} className="shell-card p-3 d-flex align-items-center gap-3">
-                      <div className="rounded-circle d-flex align-items-center justify-content-center" style={{ width: "2.5rem", height: "2.5rem", background: "var(--app-primary-soft)", color: "var(--app-primary)" }}>
-                        <Icon className="size-4" />
+                    <div key={item.text} className="action-tile p-3">
+                      <div className="d-flex align-items-center gap-3">
+                        <span className="sidebar-help-step-number">{index + 1}</span>
+                        <Icon className="size-4" style={{ color: "var(--app-primary-strong)" }} />
+                        <span className="fw-semibold text-dark">{item.text}</span>
                       </div>
-                      <span className="fw-semibold text-dark">{item.text}</span>
                     </div>
                   );
                 })}
@@ -93,50 +96,52 @@ export default function RegisterPage() {
             <div className="shell-card-strong p-4 p-lg-5">
               <div className="d-flex flex-column gap-2">
                 <p className="section-kicker mb-0">Registration</p>
-                <h2 className="mb-0 section-title" style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}>Request PRAAN Daily Reporting access</h2>
+                <h2 className="mb-0 section-title" style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}>
+                  Request PRAAN access
+                </h2>
                 <p className="section-copy mb-0">
-                  Your account stays pending until an admin approves it. Fill in the profile details used in work plans and reports.
+                  These profile details will appear in work plans, activity lines, and reports.
                 </p>
               </div>
 
               <form className="row g-4 mt-1" onSubmit={handleSubmit(onSubmit)}>
                 <div className="col-12 col-lg-6 d-flex flex-column gap-2">
                   <Label htmlFor="fullName" className="fw-semibold text-dark">Full name</Label>
-                  <Input id="fullName" {...register("profile.fullName")} />
+                  <Input id="fullName" placeholder="Write your full name" {...register("profile.fullName")} />
                   {errors.profile?.fullName ? <p className="mb-0 small text-danger">{errors.profile.fullName.message}</p> : null}
                 </div>
 
                 <div className="col-12 col-lg-6 d-flex flex-column gap-2">
                   <Label htmlFor="designation" className="fw-semibold text-dark">Designation</Label>
-                  <Input id="designation" {...register("profile.designation")} />
+                  <Input id="designation" placeholder="Write your job title" {...register("profile.designation")} />
                   {errors.profile?.designation ? <p className="mb-0 small text-danger">{errors.profile.designation.message}</p> : null}
                 </div>
 
                 <div className="col-12 col-lg-6 d-flex flex-column gap-2">
                   <Label htmlFor="email" className="fw-semibold text-dark">Email</Label>
-                  <Input id="email" type="email" {...register("email")} />
+                  <Input id="email" type="email" placeholder="name@praan.org" {...register("email")} />
                   {errors.email ? <p className="mb-0 small text-danger">{errors.email.message}</p> : null}
                 </div>
 
                 <div className="col-12 col-lg-6 d-flex flex-column gap-2">
                   <Label htmlFor="phone" className="fw-semibold text-dark">Phone</Label>
-                  <Input id="phone" {...register("profile.phone")} />
+                  <Input id="phone" placeholder="Optional" {...register("profile.phone")} />
                 </div>
 
                 <div className="col-12 col-lg-6 d-flex flex-column gap-2">
                   <Label htmlFor="password" className="fw-semibold text-dark">Password</Label>
-                  <Input id="password" type="password" {...register("password")} />
+                  <Input id="password" type="password" placeholder="Choose a password" {...register("password")} />
                   {errors.password ? <p className="mb-0 small text-danger">{errors.password.message}</p> : null}
                 </div>
 
                 <div className="col-12 col-lg-6 d-flex flex-column gap-2">
                   <Label htmlFor="confirmPassword" className="fw-semibold text-dark">Confirm password</Label>
-                  <Input id="confirmPassword" type="password" {...register("confirmPassword")} />
+                  <Input id="confirmPassword" type="password" placeholder="Write the password again" {...register("confirmPassword")} />
                   {errors.confirmPassword ? <p className="mb-0 small text-danger">{errors.confirmPassword.message}</p> : null}
                 </div>
 
                 <div className="col-12 col-lg-6 d-flex flex-column gap-2">
-                  <Label className="fw-semibold text-dark">Interface language</Label>
+                  <Label className="fw-semibold text-dark">Language</Label>
                   <Select defaultValue="en" onValueChange={(value) => setValue("profile.preferredLanguage", value as "en")}>
                     <SelectTrigger>
                       <SelectValue placeholder="English" />
@@ -153,12 +158,12 @@ export default function RegisterPage() {
 
                 <div className="col-12 d-flex flex-column gap-2">
                   <Label htmlFor="noteToAdmin" className="fw-semibold text-dark">Note to admin</Label>
-                  <Textarea id="noteToAdmin" rows={4} {...register("noteToAdmin")} />
+                  <Textarea id="noteToAdmin" rows={4} placeholder="Optional message" {...register("noteToAdmin")} />
                 </div>
 
                 <div className="col-12 d-flex flex-wrap align-items-center gap-3">
                   <button className={cn(buttonVariants({ size: "lg" }))} disabled={isSubmitting} type="submit">
-                    {isSubmitting ? "Submitting..." : "Submit registration"}
+                    {isSubmitting ? "Submitting..." : "Submit request"}
                     <ArrowRight className="size-4" />
                   </button>
                   <Link href="/login" className={buttonVariants({ variant: "outline" })}>

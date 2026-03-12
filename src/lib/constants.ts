@@ -39,16 +39,16 @@ export const TEMPLATE_TYPES = [
 export const WORKSPACE_NAVIGATION = [
   { href: "/workspace", label: "Dashboard" },
   { href: "/workspace/work-plan", label: "Work Plan" },
-  { href: "/workspace/daily-activities", label: "Daily Activities" },
+  { href: "/workspace/daily-activities", label: "Daily Entry" },
   { href: "/workspace/follow-ups", label: "Follow-ups" },
-  { href: "/workspace/monthly-reports", label: "Monthly Reports" },
+  { href: "/workspace/monthly-reports", label: "Reports" },
   { href: "/workspace/calendar", label: "Calendar" },
-  { href: "/workspace/print", label: "Print Center" },
+  { href: "/workspace/print", label: "Print" },
   { href: "/workspace/profile", label: "Profile" },
 ] as const;
 
 export const ADMIN_NAVIGATION = [
-  { href: "/admin", label: "Overview" },
+  { href: "/admin", label: "Home" },
   { href: "/admin/users", label: "Users" },
   { href: "/admin/approvals", label: "Approvals" },
   { href: "/admin/templates", label: "Templates" },

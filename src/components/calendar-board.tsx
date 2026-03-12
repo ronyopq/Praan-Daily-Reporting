@@ -22,7 +22,10 @@ export function CalendarBoard({
   events: CalendarEventItem[];
 }) {
   return (
-    <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm shadow-slate-200/60">
+    <div
+      className="rounded-[28px] border bg-white p-4"
+      style={{ borderColor: "var(--app-line)", boxShadow: "var(--app-shadow-soft)" }}
+    >
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin]}
         initialView="dayGridMonth"

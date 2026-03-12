@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, BellRing, CheckCircle2, Smartphone } from "lucide-react";
+import { ArrowRight, BellRing, ClipboardList, FileText } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -60,29 +60,34 @@ export default function LoginPage() {
       <div className="container-xxl">
         <div className="row g-4 align-items-center">
           <div className="col-12 col-lg-5">
-            <div className="rounded-5 p-4 p-lg-5 text-white" style={{ background: "linear-gradient(180deg, #0d3b66 0%, #0f766e 100%)", boxShadow: "0 24px 42px rgba(13, 59, 102, 0.22)" }}>
-              <div className="brand-chip border-0 bg-white/10">
+            <div className="shell-card-strong hero-slab p-4 p-lg-5">
+              <div className="brand-chip">
                 <span className="brand-dot" />
-                <span className="small fw-semibold text-uppercase text-white">PRAAN workspace</span>
+                <span className="small fw-semibold text-uppercase" style={{ color: "var(--app-ink-soft)" }}>
+                  Sign in
+                </span>
               </div>
-              <h1 className="mt-4 mb-3 fw-bold" style={{ fontSize: "clamp(2.3rem, 6vw, 4rem)", letterSpacing: "-0.05em" }}>
-                Daily reporting made practical.
+              <h1 className="mt-4 mb-3 fw-bold text-dark" style={{ fontSize: "clamp(2.3rem, 6vw, 4rem)", letterSpacing: "-0.05em" }}>
+                Daily reporting made easy.
               </h1>
-              <p className="mb-4" style={{ color: "rgba(255,255,255,0.84)", lineHeight: 1.8 }}>
-                Open today&apos;s plan, capture activity fast on mobile, keep follow-ups visible, and turn the month into a clean report.
+              <p className="section-copy mb-4">
+                Open your work plan, write daily work, and keep follow-ups visible from one simple workspace.
               </p>
               <div className="d-flex flex-column gap-3">
                 {[
-                  { icon: Smartphone, text: "Mobile menu first navigation" },
-                  { icon: BellRing, text: "Follow-up reminders that stay visible" },
-                  { icon: CheckCircle2, text: "Approval-safe reporting workflow" },
-                ].map((item) => {
+                  { icon: ClipboardList, text: "Check work plan first" },
+                  { icon: FileText, text: "Write daily entry quickly" },
+                  { icon: BellRing, text: "Do not miss follow-ups" },
+                ].map((item, index) => {
                   const Icon = item.icon;
 
                   return (
-                    <div key={item.text} className="panel-note d-flex align-items-center gap-3 p-3">
-                      <Icon className="size-4" />
-                      <span className="fw-semibold">{item.text}</span>
+                    <div key={item.text} className="action-tile p-3">
+                      <div className="d-flex align-items-center gap-3">
+                        <span className="sidebar-help-step-number">{index + 1}</span>
+                        <Icon className="size-4" style={{ color: "var(--app-primary-strong)" }} />
+                        <span className="fw-semibold text-dark">{item.text}</span>
+                      </div>
                     </div>
                   );
                 })}
@@ -93,9 +98,11 @@ export default function LoginPage() {
           <div className="col-12 col-lg-7 col-xl-6">
             <div className="shell-card-strong p-4 p-lg-5">
               <div className="d-flex flex-column gap-2">
-                <p className="section-kicker mb-0">Sign in</p>
-                <h2 className="mb-0 section-title" style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}>Access your reporting workspace</h2>
-                <p className="section-copy mb-0">Approved users only. Pending accounts remain locked until admin review.</p>
+                <p className="section-kicker mb-0">Account access</p>
+                <h2 className="mb-0 section-title" style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}>
+                  Sign in to your workspace
+                </h2>
+                <p className="section-copy mb-0">Only approved users can enter the system.</p>
               </div>
 
               <form className="mt-4 d-flex flex-column gap-4" onSubmit={handleSubmit(onSubmit)}>
@@ -107,7 +114,7 @@ export default function LoginPage() {
 
                 <div className="d-flex flex-column gap-2">
                   <Label htmlFor="password" className="fw-semibold text-dark">Password</Label>
-                  <Input id="password" type="password" placeholder="Enter your password" {...register("password")} />
+                  <Input id="password" type="password" placeholder="Enter password" {...register("password")} />
                   {errors.password ? <p className="mb-0 small text-danger">{errors.password.message}</p> : null}
                 </div>
 

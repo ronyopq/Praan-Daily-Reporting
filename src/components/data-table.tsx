@@ -31,7 +31,10 @@ export function DataTable<TData>({
   });
 
   return (
-    <div className="table-shell overflow-hidden rounded-5 border bg-white" style={{ borderColor: "var(--app-line)", boxShadow: "var(--app-shadow-soft)" }}>
+    <div
+      className="table-shell overflow-hidden rounded-5 border bg-white"
+      style={{ borderColor: "var(--app-line)", boxShadow: "var(--app-shadow-soft)" }}
+    >
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

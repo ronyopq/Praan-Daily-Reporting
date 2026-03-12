@@ -1,18 +1,35 @@
+import type { CSSProperties } from "react";
+
 import { cn } from "@/lib/utils";
 
 const statusClasses: Record<string, string> = {
-  draft: "bg-secondary-subtle text-secondary-emphasis",
-  submitted: "bg-info-subtle text-info-emphasis",
-  approved: "bg-success-subtle text-success-emphasis",
-  completed: "bg-success-subtle text-success-emphasis",
-  ongoing: "bg-warning-subtle text-warning-emphasis",
-  pending: "bg-warning-subtle text-warning-emphasis",
-  overdue: "bg-danger-subtle text-danger-emphasis",
-  returned: "bg-warning-subtle text-warning-emphasis",
-  rejected: "bg-danger-subtle text-danger-emphasis",
-  suspended: "bg-danger-subtle text-danger-emphasis",
-  review: "bg-primary-subtle text-primary-emphasis",
-  planned: "bg-primary-subtle text-primary-emphasis",
+  draft: "border-0",
+  submitted: "border-0",
+  approved: "border-0",
+  completed: "border-0",
+  ongoing: "border-0",
+  pending: "border-0",
+  overdue: "border-0",
+  returned: "border-0",
+  rejected: "border-0",
+  suspended: "border-0",
+  review: "border-0",
+  planned: "border-0",
+};
+
+const statusStyles: Record<string, CSSProperties> = {
+  draft: { background: "var(--app-panel-soft)", color: "var(--app-ink-soft)" },
+  submitted: { background: "var(--app-primary-soft)", color: "var(--app-primary-strong)" },
+  approved: { background: "var(--app-success-soft)", color: "var(--app-success)" },
+  completed: { background: "var(--app-success-soft)", color: "var(--app-success)" },
+  ongoing: { background: "var(--app-accent-soft)", color: "#8c6512" },
+  pending: { background: "var(--app-accent-soft)", color: "#8c6512" },
+  overdue: { background: "var(--app-danger-soft)", color: "var(--app-danger)" },
+  returned: { background: "var(--app-accent-soft)", color: "#8c6512" },
+  rejected: { background: "var(--app-danger-soft)", color: "var(--app-danger)" },
+  suspended: { background: "var(--app-danger-soft)", color: "var(--app-danger)" },
+  review: { background: "var(--app-primary-soft)", color: "var(--app-primary-strong)" },
+  planned: { background: "var(--app-primary-soft)", color: "var(--app-primary-strong)" },
 };
 
 export function StatusPill({
@@ -29,7 +46,11 @@ export function StatusPill({
         statusClasses[status] ?? "bg-secondary-subtle text-secondary-emphasis",
         className,
       )}
-      style={{ fontSize: "0.72rem", letterSpacing: "0.06em" }}
+      style={{
+        fontSize: "0.72rem",
+        letterSpacing: "0.06em",
+        ...statusStyles[status],
+      }}
     >
       {status.replaceAll("_", " ")}
     </span>

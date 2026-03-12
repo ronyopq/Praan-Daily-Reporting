@@ -25,15 +25,29 @@ export function SummaryCard({
   return (
     <div
       className={cn(
-        "p-4 p-xl-4",
+        "p-4 pt-5 p-xl-4",
         toneMap[tone],
         className,
       )}
     >
-      <p className="mb-0 text-uppercase fw-semibold" style={{ fontSize: "0.72rem", letterSpacing: "0.14em", color: "var(--app-ink-soft)" }}>{label}</p>
+      <p
+        className="mb-0 fw-semibold"
+        style={{ fontSize: "0.82rem", letterSpacing: "0.02em", color: "var(--app-ink-soft)" }}
+      >
+        {label}
+      </p>
       <div className="mt-3 d-flex align-items-end justify-content-between gap-3">
-        <p className="mb-0 fw-bold" style={{ fontSize: "2rem", lineHeight: 1, letterSpacing: "-0.05em", color: "var(--app-ink)" }}>{value}</p>
-        {hint ? <p className="mb-0 small" style={{ color: "var(--app-ink-soft)" }}>{hint}</p> : null}
+        <p
+          className="mb-0 fw-bold"
+          style={{ fontSize: "2.15rem", lineHeight: 1, letterSpacing: "-0.06em", color: "var(--app-ink)" }}
+        >
+          {value}
+        </p>
+        {hint ? (
+          <p className="mb-0 small" style={{ color: "var(--app-ink-soft)" }}>
+            {hint}
+          </p>
+        ) : null}
       </div>
     </div>
   );
