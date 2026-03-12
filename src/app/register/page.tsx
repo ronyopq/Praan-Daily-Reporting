@@ -30,7 +30,7 @@ export default function RegisterPage() {
         fullName: "",
         designation: "",
         phone: "",
-        preferredLanguage: "bn",
+        preferredLanguage: "en",
       },
     },
   });
@@ -72,7 +72,7 @@ export default function RegisterPage() {
                 {[
                   { icon: UserPlus2, text: "Create your reporting identity" },
                   { icon: ClipboardList, text: "Use the same profile in monthly plans" },
-                  { icon: Globe2, text: "Choose Bangla or English preference" },
+                  { icon: Globe2, text: "Use the English interface" },
                 ].map((item) => {
                   const Icon = item.icon;
 
@@ -136,15 +136,15 @@ export default function RegisterPage() {
                 </div>
 
                 <div className="col-12 col-lg-6 d-flex flex-column gap-2">
-                  <Label className="fw-semibold text-dark">Preferred language</Label>
-                  <Select defaultValue="bn" onValueChange={(value) => setValue("profile.preferredLanguage", value as "bn" | "en")}>
+                  <Label className="fw-semibold text-dark">Interface language</Label>
+                  <Select defaultValue="en" onValueChange={(value) => setValue("profile.preferredLanguage", value as "en")}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Choose language" />
+                      <SelectValue placeholder="English" />
                     </SelectTrigger>
                     <SelectContent>
                       {LANGUAGE_OPTIONS.map((option) => (
                         <SelectItem key={option} value={option}>
-                          {option === "bn" ? "বাংলা" : "English"}
+                          English
                         </SelectItem>
                       ))}
                     </SelectContent>

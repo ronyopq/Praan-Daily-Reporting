@@ -138,11 +138,6 @@
     color: var(--app-ink);
   }
 
-  [lang="bn"],
-  .font-bn {
-    font-family: var(--font-bengali), sans-serif;
-  }
-
   a {
     color: inherit;
     text-decoration: none;
@@ -197,19 +192,12 @@
     color: white;
   }
 
-  .shell-nav-link-active .shell-nav-label-bn,
-  .shell-nav-link-active .shell-nav-label-en {
+  .shell-nav-link-active .shell-nav-label {
     color: white;
   }
 
-  .shell-nav-label-en {
+  .shell-nav-label {
     @apply block text-sm font-semibold;
-  }
-
-  .shell-nav-label-bn {
-    @apply block text-xs;
-    color: inherit;
-    opacity: 0.72;
   }
 
   .metric-card {
@@ -348,6 +336,31 @@
   color: white;
 }
 
+.daily-entry-fab {
+  position: fixed;
+  right: 1rem;
+  bottom: calc(6rem + env(safe-area-inset-bottom));
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3.5rem;
+  padding: 0.95rem 1.2rem;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--app-primary-strong), var(--app-primary));
+  box-shadow: 0 18px 34px rgba(13, 59, 102, 0.22);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.daily-entry-fab:hover {
+  color: #fff;
+  transform: translateY(-1px);
+}
+
 .auth-shell,
 .marketing-shell {
   min-height: 100vh;
@@ -453,5 +466,12 @@
 @media (max-width: 991.98px) {
   .shell-layout {
     padding-bottom: 7.75rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .daily-entry-fab {
+    right: 1.5rem;
+    bottom: 1.5rem;
   }
 }

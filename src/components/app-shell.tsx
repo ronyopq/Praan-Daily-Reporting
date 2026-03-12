@@ -10,6 +10,7 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
+  Plus,
   ShieldCheck,
   UserCircle2,
 } from "lucide-react";
@@ -59,8 +60,7 @@ function NavLinks({
             className={cn("shell-nav-link", isActive && "shell-nav-link-active")}
           >
             <div className="flex-grow-1">
-              <span className="shell-nav-label-en">{item.labelEn}</span>
-              <span className="shell-nav-label-bn font-bn">{item.labelBn}</span>
+              <span className="shell-nav-label">{item.label}</span>
             </div>
           </Link>
         );
@@ -110,7 +110,10 @@ export function AppShell({ user, area, children }: AppShellProps) {
 
                 <div className="shell-card p-4">
                   <div className="d-flex align-items-start gap-3">
-                    <div className="rounded-circle d-flex align-items-center justify-content-center text-white" style={{ width: "3rem", height: "3rem", background: "linear-gradient(135deg, var(--app-primary-strong), var(--app-primary))" }}>
+                    <div
+                      className="rounded-circle d-flex align-items-center justify-content-center text-white"
+                      style={{ width: "3rem", height: "3rem", background: "linear-gradient(135deg, var(--app-primary-strong), var(--app-primary))" }}
+                    >
                       <UserCircle2 className="size-5" />
                     </div>
                     <div className="flex-grow-1">
@@ -118,8 +121,8 @@ export function AppShell({ user, area, children }: AppShellProps) {
                       <p className="mb-1 small" style={{ color: "var(--app-ink-soft)" }}>
                         {user?.profile?.designation ?? "Team member"}
                       </p>
-                      <p className="mb-0 small font-bn" style={{ color: "var(--app-ink-soft)" }}>
-                        {user?.profile?.departmentName ?? "PRAAN team"} • {user?.role ?? area}
+                      <p className="mb-0 small" style={{ color: "var(--app-ink-soft)" }}>
+                        {user?.profile?.departmentName ?? "PRAAN team"} | {user?.role ?? area}
                       </p>
                     </div>
                   </div>
@@ -164,7 +167,7 @@ export function AppShell({ user, area, children }: AppShellProps) {
                         <div className="shell-card mt-4 p-4">
                           <p className="mb-1 fw-bold text-dark">{user?.profile?.fullName ?? "PRAAN user"}</p>
                           <p className="mb-0 small" style={{ color: "var(--app-ink-soft)" }}>
-                            {user?.profile?.designation ?? "Team member"} • {user?.role ?? area}
+                            {user?.profile?.designation ?? "Team member"} | {user?.role ?? area}
                           </p>
                         </div>
                       </div>
@@ -183,6 +186,10 @@ export function AppShell({ user, area, children }: AppShellProps) {
                       Admin
                     </Link>
                   ) : null}
+                  <Link href="/workspace/daily-activities" className={cn(buttonVariants({ variant: "outline" }), "d-none d-md-inline-flex")}>
+                    <Plus className="size-4" />
+                    Daily Entry
+                  </Link>
                   <Link href="/workspace/profile" className={buttonVariants({ variant: "default" })}>
                     Profile
                   </Link>
@@ -209,12 +216,17 @@ export function AppShell({ user, area, children }: AppShellProps) {
                 className={cn("shell-mobile-nav-link", isActive && "shell-mobile-nav-link-active")}
               >
                 <Icon className="size-4" />
-                <span>{item.labelEn}</span>
+                <span>{item.label}</span>
               </Link>
             );
           })}
         </div>
       </nav>
+
+      <Link href="/workspace/daily-activities" className="daily-entry-fab">
+        <Plus className="size-4" />
+        <span>Daily Entry</span>
+      </Link>
     </div>
   );
 }

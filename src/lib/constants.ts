@@ -3,7 +3,7 @@ export const DHAKA_TIMEZONE = "Asia/Dhaka";
 
 export const USER_ROLES = ["super_admin", "admin", "user"] as const;
 export const APPROVAL_STATUSES = ["pending", "approved", "rejected", "suspended"] as const;
-export const LANGUAGE_OPTIONS = ["bn", "en"] as const;
+export const LANGUAGE_OPTIONS = ["en"] as const;
 export const PRIORITY_OPTIONS = ["low", "medium", "high", "critical"] as const;
 export const HOLIDAY_TYPES = ["none", "friday", "govt_holiday", "custom"] as const;
 export const WORK_PLAN_STATUSES = ["draft", "submitted", "reviewed", "returned", "approved"] as const;
@@ -37,24 +37,24 @@ export const TEMPLATE_TYPES = [
 ] as const;
 
 export const WORKSPACE_NAVIGATION = [
-  { href: "/workspace", labelEn: "Dashboard", labelBn: "ড্যাশবোর্ড" },
-  { href: "/workspace/work-plan", labelEn: "Work Plan", labelBn: "কর্মপরিকল্পনা" },
-  { href: "/workspace/daily-activities", labelEn: "Daily Activities", labelBn: "দৈনিক কার্যবিবরণী" },
-  { href: "/workspace/follow-ups", labelEn: "Follow-ups", labelBn: "ফলো-আপ" },
-  { href: "/workspace/monthly-reports", labelEn: "Monthly Reports", labelBn: "মাসিক প্রতিবেদন" },
-  { href: "/workspace/calendar", labelEn: "Calendar", labelBn: "ক্যালেন্ডার" },
-  { href: "/workspace/print", labelEn: "Print Center", labelBn: "প্রিন্ট সেন্টার" },
-  { href: "/workspace/profile", labelEn: "Profile", labelBn: "প্রোফাইল" },
+  { href: "/workspace", label: "Dashboard" },
+  { href: "/workspace/work-plan", label: "Work Plan" },
+  { href: "/workspace/daily-activities", label: "Daily Activities" },
+  { href: "/workspace/follow-ups", label: "Follow-ups" },
+  { href: "/workspace/monthly-reports", label: "Monthly Reports" },
+  { href: "/workspace/calendar", label: "Calendar" },
+  { href: "/workspace/print", label: "Print Center" },
+  { href: "/workspace/profile", label: "Profile" },
 ] as const;
 
 export const ADMIN_NAVIGATION = [
-  { href: "/admin", labelEn: "Overview", labelBn: "সারসংক্ষেপ" },
-  { href: "/admin/users", labelEn: "Users", labelBn: "ব্যবহারকারী" },
-  { href: "/admin/approvals", labelEn: "Approvals", labelBn: "অনুমোদন" },
-  { href: "/admin/templates", labelEn: "Templates", labelBn: "টেমপ্লেট" },
-  { href: "/admin/holidays", labelEn: "Holidays", labelBn: "ছুটির তালিকা" },
-  { href: "/admin/settings", labelEn: "Settings", labelBn: "সেটিংস" },
-  { href: "/admin/audit", labelEn: "Audit Log", labelBn: "অডিট লগ" },
+  { href: "/admin", label: "Overview" },
+  { href: "/admin/users", label: "Users" },
+  { href: "/admin/approvals", label: "Approvals" },
+  { href: "/admin/templates", label: "Templates" },
+  { href: "/admin/holidays", label: "Holidays" },
+  { href: "/admin/settings", label: "Settings" },
+  { href: "/admin/audit", label: "Audit Log" },
 ] as const;
 
 export const DEFAULT_TEMPLATE_SETTINGS = {

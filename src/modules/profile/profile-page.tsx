@@ -1,9 +1,9 @@
 "use client";
 
-import { useSession } from "@/hooks/use-session";
+import { EmptyState } from "@/components/empty-state";
 import { PageHeader } from "@/components/page-header";
 import { SectionCard } from "@/components/section-card";
-import { EmptyState } from "@/components/empty-state";
+import { useSession } from "@/hooks/use-session";
 
 export function ProfilePage() {
   const { data } = useSession();
@@ -59,8 +59,8 @@ export function ProfilePage() {
                 <dd className="font-medium text-slate-900">{user.profile.supervisorName ?? "Not set"}</dd>
               </div>
               <div>
-                <dt className="text-slate-500">Preferred language</dt>
-                <dd className="font-medium text-slate-900">{user.preferredLanguage === "bn" ? "বাংলা" : "English"}</dd>
+                <dt className="text-slate-500">Interface language</dt>
+                <dd className="font-medium text-slate-900">English</dd>
               </div>
             </dl>
           </SectionCard>
